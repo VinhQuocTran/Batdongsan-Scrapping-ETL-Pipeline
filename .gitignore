@@ -1,0 +1,8 @@
+.venv/
+config*.*
+scraped_data/
+reconciled_data/
+downloaded_files/
+test/
+.vscode
+**/__pycache__
