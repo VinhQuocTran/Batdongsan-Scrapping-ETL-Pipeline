@@ -1,6 +1,6 @@
 version: '3.5'
 services:
-  az-function-test:  # Change this to a unique name for your service
+  multl-threaded-selenium-scrapping:  # Change this to a unique name for your service
     build:
       context: .
       dockerfile: Dockerfile

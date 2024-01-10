@@ -46,7 +46,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     except Exception as e:
             print(f"ADLS failed to create: Error{e} \nScraped data will be saved to local ")
             adls=None
-    
+    adls=None
 
     # Starts main scrapping function
     try:
@@ -54,12 +54,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
         # Call main function and calculate total time it takes
         start_time = time.time()
-        start_urls = generate_start_urls(num_pages, 'https://batdongsan.com.vn/ban-nha-rieng-tp-hcm/p{}')
-        threaded_selenium_scrapping(nthreads,start_urls,adls)
+        base_url_format='https://batdongsan.com.vn/ban-nha-rieng-tp-hcm/p{}'
+        start_urls = generate_start_urls(num_pages, base_url_format)
+        threaded_selenium_scrapping(nthreads,start_urls,limit_each_page,adls)
         end_time = time.time()
         elapsed_time = round(end_time - start_time)
 
-        response_mess=f"This HTTP triggered scrapping function executed successfully, it took total {elapsed_time}s to scrape {num_pages} pages with {nthreads} threads, each page contains {limit_each_page} properties"
+        response_mess=f"This HTTP triggered scrapping function executed successfully, it took total {elapsed_time}s to scrape {num_pages} pages with {nthreads} threads\nEach page contains {limit_each_page} properties"
         print(response_mess)
         return func.HttpResponse(response_mess,status_code=200)
     except Exception as e:
