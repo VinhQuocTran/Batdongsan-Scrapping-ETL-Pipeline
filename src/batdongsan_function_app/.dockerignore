@@ -1,4 +1,25 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Distribution / packaging
+.Python
+env/
+lib/
+lib64/
+
+# Virtual environment
+.env
+.venv/
+venv/
+
+# VS Code
+.vscode/
+
+# Custom file
 local.settings.json
 /reconciled_data
 /scraped_data
 __pycache__
+.git

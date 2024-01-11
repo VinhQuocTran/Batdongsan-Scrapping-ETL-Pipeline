@@ -117,6 +117,8 @@ def process_single_property(property_url,chrome_driver):
             order_attribbute[attr]=None
         else:
             order_attribbute[attr]=property_attribute[attr]
+    
+    order_attribbute['url']=property_url
 
     return order_attribbute
 

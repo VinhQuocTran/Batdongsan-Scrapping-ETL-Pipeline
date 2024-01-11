@@ -46,7 +46,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     except Exception as e:
             print(f"ADLS failed to create: Error{e} \nScraped data will be saved to local ")
             adls=None
-    adls=None
+    # adls=None
 
     # Starts main scrapping function
     try:
