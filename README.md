@@ -50,8 +50,7 @@ Create all resources below to prepare for the data pipeline
 ![data layer](png/data_layer.png)
 
 #### Create `config.json` in `src/batdongsan_function_app`  and put your credentials to access Azure resources
-- If you want to upload raw data to ADLS containers, you have to set up your credentials like ADLS connection string, key, name (*)
-- (*) This step is optional if you just want to crawl data and do not run the pipeline in Databricks, scraped data will be saved to `scraped_data` local folder
+- If you want to upload raw data to ADLS containers, you have to set up your credentials like ADLS connection string, key, name. Otherwise scraped data will be saved to `scraped_data` and `reconciled_data` local folder
 ![adls credentials](png/adls_credentials.png)
 
 - Azure Functions Overview: Every Azure function folder will have the structure like the image below
