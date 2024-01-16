@@ -8,7 +8,8 @@ FROM mcr.microsoft.com/azure-functions/python:4-python3.9
 #=================================
 # Install Bash Command Line Tools
 #=================================
-RUN apt-get -qy --no-install-recommends install \
+RUN apt-get update \
+  && apt-get -qy --no-install-recommends install \
     sudo \
     unzip \
     wget \
@@ -17,7 +18,6 @@ RUN apt-get -qy --no-install-recommends install \
     libgconf-2-4 \
     xvfb \
   && rm -rf /var/lib/apt/lists/*
-
 
 
 
