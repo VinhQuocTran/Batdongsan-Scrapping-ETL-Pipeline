@@ -12,13 +12,16 @@ The pipeline crawls data from website [Batdongsan by PropertyGuru](https://batdo
 - **Microsoft Azure**: Azure Functions (crawl, extract and load data), Azure Data Lake Storage Gen2 (store raw/transformed data)
 - **Docker**: Containerize source code folder and deploy the image to Azure Functions for auto-scaling crawler
 - **Spark Structure Streaming**: a data processing framework help to unify both of your batch and streaming pipeline without rewriting code  
-- **Databricks**: a big data platform that allows me run Spark Structure Streaming without setting up infrastructure on my own.
+- **Databricks**: a big data platform that allows me run Spark Structure Streaming and use Delta Lake Architecture without setting up infrastructure on my own.
 - **PowerBI**: BI tool to help connect and get data from Delta Table using Power Query and create dashboard for analysis
 - **Prefect**: An orchestration tool
 ![Batdongsan architecture diagram](png/Batdongsan-architecture-diagram.svg)
 ### Overview
 - The [Batdongsan by PropertyGuru](https://batdongsan.com.vn/)  multi-threaded crawler is written in Azure Functions and can be containerized to deploy as an image to Azure for auto-scaling
-- The extracted data from the crawler is directly stored to  containers in Azure Data Lake Storage (ADLS). **The whole data pipeline starts running when you trigger the HTTP of your `selenium_scrapping_batdongsan` Azure Function**
+- The extracted data from the crawler is directly stored to  containers in Azure Data Lake Storage (ADLS).
+- Databricks connects to ADLS and runs Spark Structure Streaming job for transforming data
+- **The whole data pipeline starts running when you trigger the HTTP of your `selenium_scrapping_batdongsan` Azure Function**
+
 ### ETL Flow
 - You trigger HTTP of `selenium_scrapping_batdongsan` Azure function to start a pipeline. The crawler scrapes all properties's information in each page, all needed parameters are: 
     - **nthreads**: set number of threads do you want, each thread is a Selenium Chrome browser (i.e: If you set 3 threads then you have 3 Selenium Chrome browser scrapping concurrently)
@@ -41,7 +44,8 @@ The pipeline crawls data from website [Batdongsan by PropertyGuru](https://batdo
 
 Install the modules belows
 - **Docker Desktop and Docker Engine** for running container
-- **VS Code and extensions** for locally debug and run code: Azure Account, Azure Function, Azure Resources
+- **Azure Core Function Tool** 
+- **VS Code and extensions** for locally debug and testing: Azure Account, Azure Function, Azure Resources
 - **Postman** for sending API request
 
 #### Create Azure resources
