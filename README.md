@@ -59,15 +59,18 @@ Create all resources below to prepare for the data pipeline
 ![azure function structure](png/azure_function_structure.png)
 
 #### Test and debug our data pipeline
-- Follow the path `src/batdongsan_function_app` inside repo and open folder using VS code, then press F5 and run Postman to test the crawler
+- Follow the path `src/batdongsan_function_app` inside repo and open folder using VS code, install all libraries in `requirement.txt` then press F5 and run Postman to test the crawler
 ![postman](png/postman.png)
 - Another way to do is running `docker compose up -build`. Go to Postman, paste the URL belows and pass 4 needed parameters
 > http://localhost:9090/api/selenium_scrapping_batdongsan
 
-=> After you've done with debug and testing, use `docker build` and `docker push` to create and push the image to Docker or Azure ACR
 #### Deploy the crawler in Azure Functions
+- After you've done with debug and testing, use `docker build` and `docker push` to create and push the image to Docker or Azure ACR. But remember to remove/comment all `.write()` command cause deployed Azure Functions will restarts if you make a change to source folder 
+![note](png/note.png)
 - Go to Azure Portal and deploy your crawler as an image in Azure Functions App. Now you can use HTTP protocol to call the crawler
 ![function](png/function_app.png)
+- It took me about 30 mins to crawl 50 pages, using EP3 SKU instance (approx 0.9$/hour) 
+![scrapping_performance](png/scrapping_performance.png)
 
 ### Set up Databricks
 Upload 3 python notebooks in path `src/databrick_notebook` to your Databricks workspace

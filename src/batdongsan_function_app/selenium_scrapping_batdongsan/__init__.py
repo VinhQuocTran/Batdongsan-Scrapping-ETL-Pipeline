@@ -37,8 +37,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     # Reading Azure Data Lake Storage Gen 2 (ADLS2) credentials from json file otherwise save to local
     try:
-        # create_folder('./scraped_data')
-        # create_folder('./reconciled_data')
+        create_folder('./scraped_data')
+        create_folder('./reconciled_data')
 
         with open("./config.json", "r") as config_file:
             conf = json.load(config_file)
@@ -48,7 +48,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             adls=ADLSModule(sa_name,connection_string,key)
             logging.info('Connection to ADLS created successfully. Scraped data will be saved to Bronze container in ADLS Gen2')
     except Exception as e:
-            logging.info(f"ADLS failed to create: Error{e} \nScraped data will be saved to local ")
+            logging.info(f"ADLS failed to create: Error{e} \nScraped data will be saved to local folder")
             adls=None
     # adls=None
 
