@@ -18,5 +18,8 @@
     "id": "Microsoft.Azure.Functions.ExtensionBundle",
     "version": "[3.*, 4.0.0)"
   },
-  "functionTimeout": "01:00:00"
+  "functionTimeout": "01:00:00", 
+  "environmentVariables": {
+    "PYTHON_THREADPOOL_THREAD_COUNT": "16"
+  }
 }
