@@ -25,10 +25,10 @@ class ADLSModule:
             blob_client = container_client.get_blob_client(blob_name)
             blob_client.upload_blob(file, overwrite=True)
             blob_client.set_blob_metadata(metadata=metadata)
-            print(f"File {blob_name} uploaded successfully")
+            logging.info(f"File {blob_name} uploaded successfully")
             return True
         else:
-            print(f"File {blob_name} uploaded failed")
+            logging.info(f"File {blob_name} uploaded failed")
             return False
         
     def delete_files_in_path(self, container_name, path):
@@ -38,10 +38,10 @@ class ADLSModule:
             blobs = container_client.list_blobs(name_starts_with=path)
             for blob in blobs:
                 container_client.delete_blob(blob.name)    
-                print(f"{blob.name} deleted from {path} sucessfully") 
-            print(f"All items deleted in directory {path}.")
+                logging.info(f"{blob.name} deleted from {path} sucessfully") 
+            logging.info(f"All items deleted in directory {path}.")
         else:
-            print(f"Please provide path to delete in storage account")
+            logging.info(f"Please provide path to delete in storage account")
 
     def read_files_in_path(self, container_name, path):
         container_client = self._blob_service_client.get_container_client(container_name)
@@ -54,7 +54,7 @@ class ADLSModule:
                 files.append({"name": blob.name, "url": blob_client.url, "data": stream.readall()})
             return files
         else:
-            print(f"Please provide path to read in storage account")
+            logging.info(f"Please provide path to read in storage account")
             return None
         
 
@@ -67,14 +67,14 @@ class ADLSModule:
 
         # If no argument passed then ends the function
         if src_container is None or dest_container is None:
-            print("Please specify the conntainer name")
+            logging.info("Please specify the conntainer name")
             return
         
         # Create a ContainerClient object
         src_container_client = self._blob_service_client.get_container_client(src_container)
         dest_container_client= self._blob_service_client.get_container_client(dest_container)
-        print("Starts moving data process")
-        print(f"Inside move_data_between_container : source container set is : {src_container}\n destination container set is : {dest_container}")
+        logging.info("Starts moving data process")
+        logging.info(f"Inside move_data_between_container : source container set is : {src_container}\n destination container set is : {dest_container}")
 
         # cleanup destination container
         self.clean_container(dest_container)
@@ -90,7 +90,7 @@ class ADLSModule:
 
         # cleanup source container
         self.clean_container(src_container)
-        print("Moving process's successful")
+        logging.info("Moving process's successful")
 
     def clean_container(self, container_name):
         """
@@ -108,7 +108,7 @@ class ADLSModule:
         # Delete blobs
         container_client.delete_blobs(*blob_names)
         
-        print(f"All files have been deleted from '{container_name}' container.")
+        logging.info(f"All files have been deleted from '{container_name}' container.")
 
     def upload_folder_to_container(self,container_name,local_folder_path):
         # Set the local paths to the folders containing the files you want to upload
@@ -126,8 +126,8 @@ class ADLSModule:
                     local_file_path = os.path.join(root, file)
                     blob_name = os.path.relpath(local_file_path, local_folder_path).replace("\\", "/")
 
-                    print("blob name:",blob_name)
-                    print("********local file path:",local_file_path)
+                    logging.info("blob name:",blob_name)
+                    logging.info("********local file path:",local_file_path)
                     
 
                     # Create a BlobClient object for the file
@@ -136,7 +136,7 @@ class ADLSModule:
                     # Upload the file to Azure Blob Storage
                     with open(local_file_path, "rb") as data:
                         blob_client.upload_blob(data, overwrite=True)
-                        print("File uploaded successfully\n")
+                        logging.info("File uploaded successfully\n")
 
 
 

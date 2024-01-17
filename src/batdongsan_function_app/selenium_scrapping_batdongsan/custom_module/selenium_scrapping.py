@@ -60,7 +60,7 @@ def extract_property_urls_single_page(page_url,html_content):
 
 ###################### Multi-threaded Seleniumbase Scrapping Function ######################
 def process_single_property(property_url,chrome_driver):
-    # print(property_url)
+    # logging.info(property_url)
     chrome_driver.get(property_url)
     html_content = chrome_driver.page_source
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -124,7 +124,7 @@ def process_single_property(property_url,chrome_driver):
 
 
 def process_single_page(page_url,chrome_driver,limit_each_page,adls,max_retry=1):
-    print(f"The process's scrapping {page_url}...")
+    logging.info(f"The process's scrapping {page_url}...")
     properties=[]
     for attempt in range(max_retry + 1):
         try:
@@ -144,19 +144,19 @@ def process_single_page(page_url,chrome_driver,limit_each_page,adls,max_retry=1)
             file_name=f"scraped_data/{get_current_time_str()}_{extract_page_in_url(page_url)}.json"
             file_content=json.dumps(properties, ensure_ascii=False,indent=4)
 
-            with open(file_name, 'w',encoding='utf-8') as json_file:
-                json_file.write(file_content)
+            # with open(file_name, 'w',encoding='utf-8') as json_file:
+            #     json_file.write(file_content)
 
             if adls is not None:
                 adls.upload_file_to_container('bronze',file_content,file_name)
             
-            print(f"Scrapping {page_url} done.")
+            logging.info(f"Scrapping {page_url} done.")
             return properties
         except Exception as e:
-            print(f"Attempt {attempt + 1}: Error - {e}, try again in 5s")
+            logging.info(f"Attempt {attempt + 1}: Error - {e}, try again in 5s")
             sleep(5)
     
-    print(f"All attempts failed. Returning None for {page_url}")
+    logging.info(f"All attempts failed. Returning None for {page_url}")
     return []
 
     
@@ -173,7 +173,7 @@ def threaded_selenium_scrapping(nthreads,id_range,limit_each_page,adls=None):
     chrome_drivers=createChromeDriver(nthreads)
     for idx, chrome_driver in enumerate(chrome_drivers):
         ids = id_range[idx::nthreads]
-        print(ids)
+        logging.info(ids)
         t = Thread(target=process_multiple_pages, args=(ids,chrome_driver,store,limit_each_page,adls))
         threads.append(t)
 
@@ -182,8 +182,8 @@ def threaded_selenium_scrapping(nthreads,id_range,limit_each_page,adls=None):
     # wait for the threads to finish
     [ t.join() for t in threads ]
 
-    with open(f"reconciled_data/{get_current_time_str()}_reconciled_properies.json", 'w',encoding='utf-8') as json_file:
-        json.dump(store, json_file, ensure_ascii=False, indent=4)
+    # with open(f"reconciled_data/{get_current_time_str()}_reconciled_properies.json", 'w',encoding='utf-8') as json_file:
+    #     json.dump(store, json_file, ensure_ascii=False, indent=4)
 
     for cd in chrome_drivers:
         cd.quit()

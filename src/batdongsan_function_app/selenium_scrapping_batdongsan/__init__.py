@@ -37,8 +37,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     # Reading Azure Data Lake Storage Gen 2 (ADLS2) credentials from json file otherwise save to local
     try:
-        create_folder('./scraped_data')
-        create_folder('./reconciled_data')
+        # create_folder('./scraped_data')
+        # create_folder('./reconciled_data')
 
         with open("./config.json", "r") as config_file:
             conf = json.load(config_file)
@@ -46,15 +46,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             key = conf["adls"]["key"]
             sa_name = conf["adls"]["sa_name"]
             adls=ADLSModule(sa_name,connection_string,key)
-            print('Connection to ADLS created successfully. Scraped data will be saved to Bronze container in ADLS Gen2')
+            logging.info('Connection to ADLS created successfully. Scraped data will be saved to Bronze container in ADLS Gen2')
     except Exception as e:
-            print(f"ADLS failed to create: Error{e} \nScraped data will be saved to local ")
+            logging.info(f"ADLS failed to create: Error{e} \nScraped data will be saved to local ")
             adls=None
     # adls=None
 
     # Starts main scrapping function
     try:
-        print('Starts scrapping process, please wait.....')
+        logging.info('Starts scrapping process, please wait.....')
         
         # Call main function and calculate total time it takes
         start_time = time.time()
@@ -64,11 +64,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         elapsed_time = round(end_time - start_time)
 
         response_mess=f"This HTTP triggered scrapping function executed successfully, it took total {elapsed_time}s to scrape {num_pages} pages with {nthreads} threads\nEach page contains {limit_each_page} properties"
-        print(response_mess)
+        logging.info(response_mess)
         return func.HttpResponse(response_mess,status_code=200)
     except Exception as e:
         response_mess=f"Error happend in the scrapping process: {e}"
-        print(response_mess)
+        logging.info(response_mess)
         return func.HttpResponse(response_mess,status_code=500)
 
         
