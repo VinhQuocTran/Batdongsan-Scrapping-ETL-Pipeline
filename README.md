@@ -1,6 +1,20 @@
 # [Real Estate Scrapping](https://batdongsan.com.vn/) Data Pipeline
 <!-- Start Document Outline -->
 
+* Real Estate Scrapping Data Pipeline
+	* [Problem and Objective](#problem-and-objective)
+	* [Architecture](#architecture)
+		* [Overview](#overview)
+		* [ETL Flow](#etl-flow)
+		* [Data Modeling and PowerBI Dashboard](#data-modeling-and-powerbi-dashboard)
+	* [How to run](#how-to-run)
+		* [Set up the crawler](#set-up-the-crawler)
+			* [Create Azure resources](#create-azure-resources)
+			* [Set up ADLS credentials](#set-up-adls-credentials)
+			* [Test and debug our data pipeline](#test-and-debug-our-data-pipeline)
+			* [Deploy the crawler in Azure Functions](#deploy-the-crawler-in-azure-functions)
+		* [Set up Databricks](#set-up-databricks)
+
 <!-- End Document Outline -->
 ## Problem and Objective
 - During my research process for developing the  [Tokenized Real Estate Trading Exchange](https://github.com/VinhQuocTran/Finalterm-Real-Estate-Blockchain) as part of my Blockchain university class, I stumbled on an article that captured my attention. The article, titled ["Purchasing a house in Vietnam is an uphill battle - VnExpress International"](https://e.vnexpress.net/news/readers-views/purchasing-a-house-in-vietnam-is-an-uphill-battle-4547223.html) highlighted the challenges associated with buying a house in Vietnam. According to the article:
@@ -47,14 +61,15 @@ Install the modules belows
 - **Azure Core Function Tool** 
 - **VS Code and extensions** for locally debug and testing: Azure Account, Azure Function, Azure Resources
 - **Postman** for sending API request
-- All Libraries in `src/batdongsan_function_app/requirement.txt`
+- All libraries in `src/batdongsan_function_app/requirement.txt`
 
 #### Create Azure resources
 Create all resources below to prepare for the data pipeline
 - 1 ADLS Gen2 and 2 containers for our data layer: bronze, silver
 ![data layer](png/data_layer.png)
 
-#### Create `config.json` in `src/batdongsan_function_app` and put your credentials to access Azure resources
+#### Set up ADLS credentials
+- Create `config.json` in `src/batdongsan_function_app` and put your credentials to access Azure resources
 - If you want to upload raw data to ADLS containers, remember to set up credentials like ADLS storage's name, connection string and key. Otherwise, scraped data will be saved to the local folder `scraped_data`
 ![adls credentials](png/adls_credentials.png)
 
