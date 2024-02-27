@@ -1,17 +1,19 @@
-import logging
+
 from seleniumbase import Driver
 from threading import Thread
 from concurrent.futures import ThreadPoolExecutor
 from time import sleep
 from seleniumbase import Driver
 from bs4 import BeautifulSoup
+from datetime import datetime
+from sys import path
+
 import json
 import sys
 import re
-from sys import path
+import logging
 import os
-from datetime import datetime
-import os
+
 
 sys.stdin.reconfigure(encoding='utf-8')
 sys.stdout.reconfigure(encoding='utf-8')
